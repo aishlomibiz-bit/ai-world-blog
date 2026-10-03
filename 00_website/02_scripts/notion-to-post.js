@@ -1,5 +1,6 @@
 import "dotenv/config";
 import path from "node:path";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import { NotionBlog } from "./lib/notion.js";
@@ -12,19 +13,32 @@ import { writePostMarkdown } from "./lib/markdown-writer.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BLOG_ROOT = path.resolve(__dirname, "..");
-const BLOG_POSTS_DIR = path.join(BLOG_ROOT, "src", "data", "blog");
-const PUBLIC_DIR = path.join(BLOG_ROOT, "public");
-const AUTHOR = process.env.BLOG_AUTHOR || "מומחה ה AI שלכם";
+const BLOG_POSTS_DIR = existsSync(path.join(BLOG_ROOT, "00_src", "data", "blog"))
+  ? path.join(BLOG_ROOT, "00_src", "data", "blog")
+  : path.join(BLOG_ROOT, "src", "data", "blog");
+const PUBLIC_DIR = existsSync(path.join(BLOG_ROOT, "01_public"))
+  ? path.join(BLOG_ROOT, "01_public")
+  : path.join(BLOG_ROOT, "public");
+const AUTHOR = process.env.BLOG_AUTHOR || "צוות עולם ה-AI";
 
 async function main() {
-  console.log("🔍 Fetching entries with Status = 'ready to publish'...\n");
+  const targetStatusArg = process.argv[2] || process.env.TARGET_STATUS;
+  const targetStatuses = targetStatusArg
+    ? [targetStatusArg]
+    : ["Not started", "ready to publish"];
+
+  const statusLabel = Array.isArray(targetStatuses)
+    ? targetStatuses.map((s) => `'${s}'`).join(" or ")
+    : `'${targetStatuses}'`;
+
+  console.log(`🔍 Fetching entries with Status = ${statusLabel}...\n`);
 
   const notion = new NotionBlog(
     process.env.NOTION_TOKEN,
     process.env.NOTION_DATABASE_ID
   );
 
-  const pages = await notion.getPagesByStatus("ready to publish");
+  const pages = await notion.getPagesByStatus(targetStatuses);
 
   if (pages.length === 0) {
     console.log("✅ No entries to process. All caught up!");
@@ -36,6 +50,7 @@ async function main() {
   let successCount = 0;
   let skippedCount = 0;
   let errorCount = 0;
+  const previewUrls = [];
 
   for (const page of pages) {
     const fields = notion.extractFields(page);
@@ -119,7 +134,11 @@ async function main() {
         draft: true,
       });
 
+      const postSlugId = filename.replace(/\.md$/, "");
+      const previewUrl = `http://localhost:4321/posts/${postSlugId}`;
+      previewUrls.push({ title: post.title, url: previewUrl });
       console.log(`   📄 Created: ${filename}`);
+      console.log(`   🔗 Preview URL: ${previewUrl}`);
 
       // Update Notion with final post, SEO metadata, and word count
       await notion.setFinalPost(page.id, postContentWithCta);
@@ -151,6 +170,12 @@ async function main() {
   console.log(
     `✨ Done! ${successCount} succeeded, ${skippedCount} skipped by Jev, ${errorCount} failed`
   );
+  if (previewUrls.length > 0) {
+    console.log(`\n🔗 Localhost Preview URLs:`);
+    for (const item of previewUrls) {
+      console.log(`   • ${item.title}: ${item.url}`);
+    }
+  }
   console.log(`\n📋 NEXT STEPS:`);
   console.log(`1. Run 'npm run dev' to preview locally at http://localhost:4321`);
   console.log(`2. Review generated posts (they have draft: true)`);

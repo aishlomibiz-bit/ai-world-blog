@@ -11,8 +11,8 @@ async function runTests() {
   // 1. Dynamic CTA Routing Tests
   console.log("▶️ Test 1.1: Dynamic CTA Routing Logic");
   const scenarios = [
-    { name: "CPA / Financial Topic", eval: { targetAudience: "finance", suggestedPostType: "use_case", commercialIntent: "high" }, expected: "consulting" },
-    { name: "Beginner AI Tutorial", eval: { targetAudience: "beginners", suggestedPostType: "tutorial", commercialIntent: "medium" }, expected: "course" },
+    { name: "Business Automation & Consulting", eval: { targetAudience: "business_owners", suggestedPostType: "use_case", commercialIntent: "high" }, expected: "consulting" },
+    { name: "Beginner AI Tutorial & Tools", eval: { targetAudience: "beginners", suggestedPostType: "tutorial", commercialIntent: "medium" }, expected: "google_ai_pro" },
     { name: "Developer Tool Guide", eval: { targetAudience: "developers", suggestedPostType: "tool_explainer", commercialIntent: "medium" }, expected: "tools" },
     { name: "General AI News", eval: { targetAudience: "general", suggestedPostType: "news_analysis", commercialIntent: "low" }, expected: "newsletter" },
   ];
@@ -28,16 +28,16 @@ async function runTests() {
   const mockLeads = [
     {
       name: "דני כהן",
-      company: "פירמת עורכי דין וראיית חשבון (60 עובדים)",
-      message: "שלום, אנחנו מחפשים ייעוץ להטמעת כלי AI וביקורת אוטומציה למחלקת הכספים.",
-      expectedService: "cpa_consulting",
+      company: "חברת פינטק (60 עובדים)",
+      message: "שלום, אנחנו מחפשים ייעוץ להטמעת כלי AI וסוכני אוטומציה בארגון.",
+      expectedService: "business_consulting",
       shouldBeVip: true,
     },
     {
       name: "מיכל לוי",
       company: "עצמאית",
-      message: "היי, רציתי לדעת מתי נפתח הקורס הבא שלכם לבינה מלאכותית למתחילים?",
-      expectedService: "ai_course",
+      message: "היי, רציתי לדעת איך משיגים את ההנחה שלכם למנוי גוגל AI פרו (Google AI Pro deal)?",
+      expectedService: "google_ai_pro_deal",
       shouldBeVip: false,
     },
     {

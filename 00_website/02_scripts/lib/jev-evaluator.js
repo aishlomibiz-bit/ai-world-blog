@@ -12,7 +12,7 @@ const CATEGORY_MAP = {
   tutorial: ["מדריכים", "בינה מלאכותית"],
   comparison: ["השוואות כלים", "בינה מלאכותית"],
   tool_explainer: ["כלי AI", "סקירות"],
-  use_case: ["עסקים וכספים", "אוטומציה"],
+  use_case: ["עסקים ואוטומציה", "פרודוקטיביות"],
   news_analysis: ["חדשות AI", "טכנולוגיה"],
 };
 
@@ -26,10 +26,10 @@ export async function evaluateStoryWithJev({ name, prompt, urlSource, scrapedCon
       qualityScore: 8,
       isRelevant: true,
       categories: ["בינה מלאכותית", "מדריכים"],
-      targetAudience: "business_owners",
+      targetAudience: "creators",
       suggestedPostType: "tool_explainer",
       commercialIntent: "medium",
-      recommendedCta: "course",
+      recommendedCta: "google_ai_pro",
       confidence: 0.9,
       summaryReason: "Pre-flight skipped (gateway key not set)",
     };
@@ -47,14 +47,20 @@ Your task is to rapidly evaluate raw content candidates, assign categories, and 
 
 Evaluate the content according to:
 - qualityScore: 1-10 integer score.
-- isRelevant: boolean (true if relevant to AI tools, workflow automation, Israeli tech/finance).
-- categories: array of 1-3 Hebrew category tags (e.g. ["מדריכים", "כלי AI", "עסקים וכספים", "פיתוח", "אוטומציה"]).
-- targetAudience: one of ["beginners", "developers", "business_owners", "finance", "creators"].
+- isRelevant: boolean (true if relevant to AI tools, workflow automation, modern tech & productivity).
+- categories: array of 1-3 Hebrew category tags (e.g. ["מדריכים", "כלי AI", "עסקים ואוטומציה", "פיתוח"]).
+- targetAudience: one of ["beginners", "developers", "business_owners", "creators"].
 - suggestedPostType: one of ["tutorial", "comparison", "tool_explainer", "use_case", "news_analysis"].
 - commercialIntent: one of ["low", "medium", "high"].
-- recommendedCta: one of ["course", "consulting", "tools", "newsletter"].
+- recommendedCta: one of ["google_ai_pro", "consulting", "tools", "newsletter"].
 - confidence: float between 0.0 and 1.0.
 - summaryReason: 1 sentence in Hebrew explaining the evaluation.
+
+Note on CTAs:
+- "google_ai_pro": Exclusive heavily discounted subscription deal for Google AI Pro / Gemini Advanced (Best for beginners, creators, general AI tool guides).
+- "consulting": B2B / Enterprise AI integration & business workflow automation consulting.
+- "tools": Developer tool stacks, scripts, API setups.
+- "newsletter": AI news & weekly digest.
 
 Respond STRICTLY with valid JSON matching this schema:
 {
@@ -114,10 +120,10 @@ Respond STRICTLY with valid JSON matching this schema:
       qualityScore,
       isRelevant,
       categories: parsed.categories || CATEGORY_MAP[parsed.suggestedPostType] || ["בינה מלאכותית"],
-      targetAudience: parsed.targetAudience || "business_owners",
+      targetAudience: parsed.targetAudience || "creators",
       suggestedPostType: parsed.suggestedPostType || "tool_explainer",
       commercialIntent: parsed.commercialIntent || "medium",
-      recommendedCta: parsed.recommendedCta || "course",
+      recommendedCta: parsed.recommendedCta || "google_ai_pro",
       confidence: parsed.confidence || 0.9,
       summaryReason: parsed.summaryReason || "הערכה והקצאת קטגוריות הושלמו בהצלחה",
       durationMs,
@@ -155,21 +161,22 @@ function getFallbackEvaluation(payload) {
   }
 
   let suggestedPostType = "tool_explainer";
-  let targetAudience = "business_owners";
-  let recommendedCta = "course";
+  let targetAudience = "creators";
+  let recommendedCta = "google_ai_pro";
   let categories = ["בינה מלאכותית"];
 
   if (text.includes("מדריך") || text.includes("איך") || text.includes("how to")) {
     suggestedPostType = "tutorial";
     categories = ["מדריכים", "בינה מלאכותית"];
+    recommendedCta = "google_ai_pro";
   } else if (text.includes("השווא") || text.includes("vs") || text.includes("הבדל")) {
     suggestedPostType = "comparison";
     categories = ["השוואות כלים", "בינה מלאכותית"];
-  } else if (text.includes("כספים") || text.includes("רואה חשבון") || text.includes("tax") || text.includes("דוחות")) {
+  } else if (text.includes("עסקים") || text.includes("חברה") || text.includes("ארגון") || text.includes("אוטומציה עסקית")) {
     suggestedPostType = "use_case";
-    targetAudience = "finance";
+    targetAudience = "business_owners";
     recommendedCta = "consulting";
-    categories = ["עסקים וכספים", "אוטומציה"];
+    categories = ["עסקים ואוטומציה"];
   } else if (text.includes("קוד") || text.includes("code") || text.includes("מתכנת") || text.includes("api")) {
     targetAudience = "developers";
     recommendedCta = "tools";

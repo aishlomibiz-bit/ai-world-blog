@@ -4,8 +4,8 @@
   /* ===== Override default Tailwind Typography styles ===== */
   .app-prose {
     @apply prose max-w-none;
-    font-size: 1.125rem;
-    line-height: 1.8;
+    font-size: 1.2rem;
+    line-height: 1.85;
 
     h1,
     h2,

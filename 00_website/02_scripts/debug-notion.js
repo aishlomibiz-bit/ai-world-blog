@@ -20,7 +20,9 @@ console.log(`\nFound ${pages.length} pages in database.\n`);
 for (const p of pages) {
   const name =
     p.properties?.Name?.title?.[0]?.plain_text ||
-    p.properties?.Name?.title?.map((t) => t.plain_text).join("") ||
+    (Array.isArray(p.properties?.Name?.title)
+      ? p.properties.Name.title.map((t) => t.plain_text).join("")
+      : "") ||
     "(no name)";
   const status = p.properties?.Status?.status?.name || "(no status)";
 
