@@ -26,9 +26,13 @@ export class NotionBlog {
     });
     const data = await res.json();
 
+    const targetDb = (this.databaseId || "").replace(/-/g, "");
     return (data.results || []).filter((p) => {
-      const parentOk = p.parent?.database_id === this.databaseId;
+      const parentOk = (p.parent?.database_id || "").replace(/-/g, "") === targetDb;
       const status = p.properties?.Status?.status?.name;
+      if (Array.isArray(statusValue)) {
+        return parentOk && statusValue.includes(status);
+      }
       return parentOk && status === statusValue;
     });
   }
@@ -45,8 +49,9 @@ export class NotionBlog {
     });
     const data = await res.json();
 
+    const targetDb = (this.databaseId || "").replace(/-/g, "");
     return (data.results || []).filter((p) => {
-      const parentOk = p.parent?.database_id === this.databaseId;
+      const parentOk = (p.parent?.database_id || "").replace(/-/g, "") === targetDb;
       const status = p.properties?.Status?.status?.name;
       const reviewed = p.properties?.["ביקורת אנושית"]?.checkbox === true;
       return parentOk && status === "In progress" && reviewed;
