@@ -15,46 +15,88 @@ export class NotionBlog {
   }
 
   async getPagesByStatus(statusValue) {
-    const res = await fetch("https://api.notion.com/v1/search", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
-        "Notion-Version": "2025-09-03",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ page_size: 100 }),
-    });
-    const data = await res.json();
-
-    const targetDb = (this.databaseId || "").replace(/-/g, "");
-    return (data.results || []).filter((p) => {
-      const parentOk = (p.parent?.database_id || "").replace(/-/g, "") === targetDb;
-      const status = p.properties?.Status?.status?.name;
-      if (Array.isArray(statusValue)) {
-        return parentOk && statusValue.includes(status);
+    let pages = [];
+    try {
+      const res = await fetch(`https://api.notion.com/v1/databases/${this.databaseId}/query`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
+          "Notion-Version": "2022-06-28",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page_size: 100 }),
+      });
+      const data = await res.json();
+      if (Array.isArray(data.results)) {
+        pages = data.results;
       }
-      return parentOk && status === statusValue;
+    } catch (_) {}
+
+    if (pages.length === 0) {
+      const res = await fetch("https://api.notion.com/v1/search", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
+          "Notion-Version": "2025-09-03",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page_size: 100 }),
+      });
+      const data = await res.json();
+      const targetDb = (this.databaseId || "").replace(/-/g, "");
+      pages = (data.results || []).filter((p) => {
+        return (p.parent?.database_id || "").replace(/-/g, "") === targetDb;
+      });
+    }
+
+    return pages.filter((p) => {
+      const status = p.properties?.Status?.status?.name || p.properties?.Status?.select?.name;
+      if (Array.isArray(statusValue)) {
+        return statusValue.includes(status);
+      }
+      return status === statusValue;
     });
   }
 
   async getPagesReviewed() {
-    const res = await fetch("https://api.notion.com/v1/search", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
-        "Notion-Version": "2025-09-03",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ page_size: 100 }),
-    });
-    const data = await res.json();
+    let pages = [];
+    try {
+      const res = await fetch(`https://api.notion.com/v1/databases/${this.databaseId}/query`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
+          "Notion-Version": "2022-06-28",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page_size: 100 }),
+      });
+      const data = await res.json();
+      if (Array.isArray(data.results)) {
+        pages = data.results;
+      }
+    } catch (_) {}
 
-    const targetDb = (this.databaseId || "").replace(/-/g, "");
-    return (data.results || []).filter((p) => {
-      const parentOk = (p.parent?.database_id || "").replace(/-/g, "") === targetDb;
-      const status = p.properties?.Status?.status?.name;
+    if (pages.length === 0) {
+      const res = await fetch("https://api.notion.com/v1/search", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
+          "Notion-Version": "2025-09-03",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page_size: 100 }),
+      });
+      const data = await res.json();
+      const targetDb = (this.databaseId || "").replace(/-/g, "");
+      pages = (data.results || []).filter((p) => {
+        return (p.parent?.database_id || "").replace(/-/g, "") === targetDb;
+      });
+    }
+
+    return pages.filter((p) => {
+      const status = p.properties?.Status?.status?.name || p.properties?.Status?.select?.name;
       const reviewed = p.properties?.["ביקורת אנושית"]?.checkbox === true;
-      return parentOk && status === "In progress" && reviewed;
+      return status === "In progress" && reviewed;
     });
   }
 
@@ -67,9 +109,14 @@ export class NotionBlog {
       urlSource: p["URL מקור"]?.url || "",
       finalPost: p["הפוסט הסופי"]?.rich_text?.map((r) => r.plain_text).join("") || "",
       category: p["קטגוריה"]?.multi_select?.map((s) => s.name) || [],
+      categories: p["קטגוריה"]?.multi_select?.map((s) => s.name) || [],
       score: p["ניקוד"]?.number || null,
       image: p["תמונה שנוצרה"]?.files?.[0] || null,
       status: p.Status?.status?.name || "",
+      metaDescription: p["Meta Description"]?.rich_text?.map((r) => r.plain_text).join("") || "",
+      postLink: p["לינק לפוסט"]?.url || "",
+      reviewed: p["ביקורת אנושית"]?.checkbox === true,
+      published: p["פורסם באתר"]?.checkbox === true,
     };
   }
 

@@ -43,16 +43,31 @@ async function main() {
     console.log(`\n▶️  Evaluating: "${fields.name}"`);
 
     try {
-      if (!fields.slug) {
-        throw new Error("Slug is empty — cannot locate markdown file");
-      }
-
-      // Find the markdown file by slug
+      // Find the markdown file
       const files = await fs.readdir(BLOG_POSTS_DIR);
-      const match = files.find((f) => f.endsWith(`${fields.slug}.md`));
-      if (!match) {
-        throw new Error(`Markdown file not found for slug: ${fields.slug}`);
+      let match = null;
+      if (fields.slug) {
+        match = files.find((f) => f.endsWith(`${fields.slug}.md`) || f === `${fields.slug}.md`);
       }
+      if (!match) {
+        for (const f of files) {
+          if (!f.endsWith(".md")) continue;
+          if (fields.name.toLowerCase().includes("dots") && f.includes("dots")) {
+            match = f;
+            break;
+          }
+          const content = await fs.readFile(path.join(BLOG_POSTS_DIR, f), "utf-8");
+          if (content.includes(fields.name.trim())) {
+            match = f;
+            break;
+          }
+        }
+      }
+      if (!match) {
+        throw new Error(`Markdown file not found for post: "${fields.name}"`);
+      }
+      const slug = match.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, "");
+      fields.slug = slug;
       const filePath = path.join(BLOG_POSTS_DIR, match);
       const fileContent = await fs.readFile(filePath, "utf-8");
 

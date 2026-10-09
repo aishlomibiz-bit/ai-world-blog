@@ -14,10 +14,12 @@ const JEV_MODEL = process.env.AI_MODEL || "typesafe-ai/jev";
 export async function evaluateSeoGeoQuality({ title, metaDescription, content, tags = [] }) {
   const apiKey = process.env.AI_GATEWAY_API_KEY;
 
+  const cleanBody = (content || "").replace(/^---[\s\S]*?---\s*/, "");
   const payload = {
     title: title || "",
     metaDescription: metaDescription || "",
-    contentSample: content ? content.slice(0, 2000) : "",
+    contentSample: cleanBody ? cleanBody.slice(0, 2000) : "",
+    content: cleanBody,
     tags,
   };
 
@@ -112,8 +114,9 @@ export function getFallbackSeoGeoEvaluation({ title = "", metaDescription = "", 
   const metaLen = (metaDescription || "").trim().length;
   const metaDescriptionActionable = metaLen >= 40 && metaLen <= 220;
 
-  // Check for clear answer block or callout block in the top 1500 chars
-  const intro = fullText.slice(0, 1500);
+  // Check for clear answer block or callout block in the top 1500 chars of body
+  const textBody = fullText.replace(/^---[\s\S]*?---\s*/, "");
+  const intro = (textBody || fullText).slice(0, 1500);
   const containsClearAnswerBlock =
     intro.includes(">") ||
     intro.includes("תקציר") ||
