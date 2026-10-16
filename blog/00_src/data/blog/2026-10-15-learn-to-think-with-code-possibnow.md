@@ -12,6 +12,7 @@ tags:
   - מנהיגות טק
 featured: true
 draft: false
+hideAuthor: true
 ogImage: /images/posts/code.png
 faqs:
   - question: "האם מנהל או איש מקצוע באמת צריך ללמוד תכנות כדי 'לחשוב בקוד'?"

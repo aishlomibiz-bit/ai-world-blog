@@ -18,6 +18,7 @@ const blog = defineCollection({
       description: z.string(),
       canonicalURL: z.string().optional(),
       hideEditPost: z.boolean().optional(),
+      hideAuthor: z.boolean().optional(),
       timezone: z.string().optional(),
       guideTitle: z.string().optional(),
       faqs: z
