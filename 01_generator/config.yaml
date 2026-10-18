@@ -1,5 +1,5 @@
 blog:
-  output_dir: ../00_website/00_src/data/blog
+  output_dir: ../00_blog/00_src/data/blog
   author: עולם ה AI
   default_tags:
     - AI

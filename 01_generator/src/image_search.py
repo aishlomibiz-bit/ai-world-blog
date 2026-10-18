@@ -8,7 +8,7 @@ from pathlib import Path
 
 _CACHE_DIR = Path(__file__).parent.parent / ".cache" / "images"
 _BLOG_IMAGES_DIR = (
-    Path(__file__).parent.parent.parent / "00_website" / "01_public" / "images" / "posts"
+    Path(__file__).parent.parent.parent / "00_blog" / "01_public" / "images" / "posts"
 )
 
 _TAG_QUERIES = {

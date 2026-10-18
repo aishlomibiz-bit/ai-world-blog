@@ -26,7 +26,7 @@ Activate this skill whenever the user asks to generate posts, review Notion rows
 
 * **Target Production Site**: `https://ai-world-blog.vercel.app/`
 * **Local Development Port**: `http://localhost:4321`
-* **Primary Project Directory**: `00_website/` (Mirror in `blog/`)
+* **Primary Project Directory**: `00_blog/`
 * **GSC Management Client**: `02_scripts/01_seo_and_gsc/gsc_client.py`
 
 ---
@@ -97,7 +97,7 @@ When the user asks in chat, execute the full workflow without asking them to run
 2. Run Jev pre-flight triage and update Notion score/categories.
 3. Generate 1,200+ word Hebrew article with Claude 3.7.
 4. Inject selected Monetization CTA and related post cards.
-5. Save Markdown in `00_website/00_src/data/blog/YYYY-MM-DD-<slug>.md` with `draft: true`.
+5. Save Markdown in `00_blog/00_src/data/blog/YYYY-MM-DD-<slug>.md` with `draft: true`.
 6. Update Notion `הפוסט הסופי` and `Status = "In progress"`.
 
 ### Workflow B: Review & Local Preview
@@ -111,7 +111,7 @@ When the user asks in chat, execute the full workflow without asking them to run
 1. Check approved posts (`ביקורת אנושית = true`) and set `draft: false`.
 2. Run test build:
    ```powershell
-   cd 'c:\Users\Ronen\Documents\Projects\repos\Blog experimrement\00_website'; npm run build
+   cd 'c:\Users\Ronen\Documents\Projects\repos\Blog experimrement\00_blog'; npm run build
    ```
 3. Commit and push to Git:
    ```powershell
