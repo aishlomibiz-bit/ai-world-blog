@@ -10,7 +10,7 @@ tags:
   - למידה
   - AI tools
 featured: false
-draft: true
+draft: false
 ---
 ## הכרתי יזם שהצליח לשחזר את המודל העסקי של חברה בת 50 מיליון דולר תוך 3 שיחות
 
