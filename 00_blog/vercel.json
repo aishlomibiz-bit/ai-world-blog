@@ -25,5 +25,6 @@
       "destination": "/sitemap-index.xml",
       "permanent": true
     }
-  ]
+  ],
+  "trailingSlash": true
 }
