@@ -4,7 +4,7 @@ export const SITE = {
   profile: "",
   desc: "בלוג על כלי AI חדשים והסברים נגישים בעברית",
   title: "עולם ה AI",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "astropaper-og.png",
   lightAndDarkMode: true,
   postPerIndex: 6,
   postPerPage: 9,

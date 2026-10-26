@@ -19,6 +19,12 @@
       "source": "/posts/2026-04-14-github-for-beginners-getting-started-with-github-pages/",
       "destination": "/posts/2026-04-14-github-for-beginners/",
       "permanent": true
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap-index.xml",
+      "permanent": true
     }
-  ]
+  ],
+  "trailingSlash": true
 }
