@@ -1,9 +1,32 @@
+const fullFontCache = new Map<string, Promise<ArrayBuffer>>();
+
 async function loadGoogleFont(
   font: string,
   text: string,
   weight: number
 ): Promise<ArrayBuffer> {
-  const API = `https://fonts.googleapis.com/css2?family=${font}:wght@${weight}&text=${encodeURIComponent(text)}`;
+  // Full (unsubsetted) font, cached per family+weight for the whole build.
+  // text is accepted for API compatibility; subsetting per call was the old
+  // behavior and caused a font fetch per OG image.
+  const cacheKey = `${font}:${weight}`;
+  const cached = fullFontCache.get(cacheKey);
+  if (cached) return cached;
+  const promise = fetchFullFont(font, weight);
+  fullFontCache.set(cacheKey, promise);
+  return promise;
+}
+
+async function fetchFullFont(
+  font: string,
+  weight: number
+): Promise<ArrayBuffer> {
+  // Constant coverage text: guarantees Hebrew + Latin glyphs in the subset,
+  // while keeping one cached fetch per family+weight per build.
+  const coverage =
+    "אבגדהוזחטיכלמנסעפצקרשתםןץףך" +
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" +
+    " .,;:!?()-–—'\"״׳/+%$&@#";
+  const API = `https://fonts.googleapis.com/css2?family=${font}:wght@${weight}&text=${encodeURIComponent(coverage)}`;
 
   const css = await (
     await fetch(API, {
@@ -44,6 +67,18 @@ async function loadGoogleFonts(
     {
       name: "IBM Plex Mono",
       font: "IBM+Plex+Mono",
+      weight: 700,
+      style: "bold",
+    },
+    {
+      name: "Heebo",
+      font: "Heebo",
+      weight: 400,
+      style: "normal",
+    },
+    {
+      name: "Heebo",
+      font: "Heebo",
       weight: 700,
       style: "bold",
     },
