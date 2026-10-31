@@ -10,6 +10,15 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./00_src/utils/transformers/fileName";
 import { SITE } from "./00_src/config";
+import { readFileSync } from "node:fs";
+
+// Sitemap lastmod dates: generated from git history (last content-changing commit
+// per post, floored at pubDatetime). Regenerate 00_src/data/postLastmod.json when
+// posts change outside frontmatter modDatetime. Only /posts/<slug>/ URLs get lastmod;
+// other pages omit it rather than claim a date we do not know.
+const postLastmod: Record<string, string> = JSON.parse(
+  readFileSync(new URL("./00_src/data/postLastmod.json", import.meta.url), "utf-8")
+);
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,6 +28,11 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      serialize(item) {
+        const m = item.url.match(/\/posts\/([^/]+)\/$/);
+        if (m && postLastmod[m[1]]) item.lastmod = postLastmod[m[1]];
+        return item;
+      },
     }),
   ],
   markdown: {
