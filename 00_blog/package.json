@@ -26,6 +26,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "ai": "^6.0.168",
     "astro": "^5.16.6",
+    "bidi-js": "^1.1.0",
     "dayjs": "^1.11.19",
     "dotenv": "^17.4.2",
     "lodash.kebabcase": "^4.1.1",
