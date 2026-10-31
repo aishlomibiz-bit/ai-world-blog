@@ -35,3 +35,10 @@ export function coverForPost(slug: string, ogImage?: string): Cover | null {
   }
   return null;
 }
+
+// Home/default share card art: owner-provided robot (2026-10-31), pre-composed
+// to the exact 540x630 panel aspect, so "cover" shows it fully with no crop.
+export const SITE_COVER = (): Cover => ({
+  uri: readPublicAsset("images/posts/og-covers/user-robot-desk.png"),
+  fit: "cover",
+});
