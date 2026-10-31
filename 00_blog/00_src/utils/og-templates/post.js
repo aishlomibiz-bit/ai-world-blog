@@ -24,19 +24,19 @@ async function optionBCard(post, cover) {
   const measure = makeMeasurer(fonts);
 
   // Adaptive headline size: shrink until it fits within 2 lines.
-  let hSize = 44;
+  let hSize = 58;
   let hLines = await wrapLogical(measure, copy.headline, TEXT_MAX_W, hSize, true);
-  while (hLines.length > 2 && hSize > 34) {
+  while (hLines.length > 2 && hSize > 46) {
     hSize -= 3;
     hLines = await wrapLogical(measure, copy.headline, TEXT_MAX_W, hSize, true);
   }
 
   // Subtitle: up to 3 lines at a softer size.
-  let sSize = 24;
+  let sSize = 32;
   let sLines = copy.subtitle
     ? await wrapLogical(measure, copy.subtitle, TEXT_MAX_W, sSize, false)
     : [];
-  while (sLines.length > 3 && sSize > 22) {
+  while (sLines.length > 3 && sSize > 26) {
     sSize -= 2;
     sLines = await wrapLogical(measure, copy.subtitle, TEXT_MAX_W, sSize, false);
   }

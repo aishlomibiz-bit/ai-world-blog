@@ -13,9 +13,13 @@ export const BRAND_BADGE = () => readPublicAsset("images/brand-badge.png");
 
 // Rasterized replacements for covers satori cannot decode (svg/webp).
 // Art is the original article art converted to PNG, shown fully (contain).
-const COVER_OVERRIDES: Record<string, { rel: string; fit: "contain" }> = {
+const COVER_OVERRIDES: Record<string, { rel: string; fit: "contain" | "cover" }> = {
   "agent-loop": { rel: "images/posts/og-covers/agent-loop.png", fit: "contain" },
   "seo-reports": { rel: "images/posts/og-covers/seo-ranking-report.png", fit: "contain" },
+  // Owner-provided art (2026-10-31), pre-composed to the exact 540x630 panel
+  // aspect, so "cover" shows it fully with no crop.
+  "2026-10-24-build-personal-ai-handbook-guide": { rel: "images/posts/og-covers/user-robot-desk.png", fit: "cover" },
+  "2026-10-18-reverse-engineer-anything-rea-method-9-minutes": { rel: "images/posts/og-covers/user-robot-desk.png", fit: "cover" },
 };
 
 export type Cover = { uri: string; fit: "cover" | "contain" };
