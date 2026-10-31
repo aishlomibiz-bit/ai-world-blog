@@ -54,15 +54,9 @@ if (!ogImageUrl && SITE.dynamicOgImage) {
   ogImageUrl = `${getPath(post.id, post.filePath)}/index.png`;
 }
 
-// Share-preview card: always the generated OG card when dynamic OG is on,
-// regardless of the article's own cover image.
-const metaOgImageUrl = SITE.dynamicOgImage
-  ? `${getPath(post.id, post.filePath)}/index.png`
-  : ogImageUrl;
-
 // Resolve OG image URL (or fallback to SITE.ogImage / default `og.png`)
-const ogImage = metaOgImageUrl
-  ? new URL(metaOgImageUrl, Astro.url.origin).href
+const ogImage = ogImageUrl
+  ? new URL(ogImageUrl, Astro.url.origin).href
   : undefined;
 
 const layoutProps = {
