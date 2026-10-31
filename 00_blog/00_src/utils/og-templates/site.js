@@ -1,128 +1,117 @@
 import satori from "satori";
 import { SITE } from "@/config";
 import loadGoogleFonts from "../loadGoogleFont";
+import { rtl } from "../ogBidi";
+import { BRAND_BADGE, BRAND_FALLBACK_COVER } from "../ogBrand";
+
+const PANEL_BG = "#0d1330";
+const ACCENT = "#a5b4fc";
 
 export default async () => {
+  const badge = BRAND_BADGE();
+  const cover = BRAND_FALLBACK_COVER();
+  const hostname = new URL(SITE.website).hostname;
+  const fonts = await loadGoogleFonts(SITE.title + SITE.desc + hostname);
+
   return satori(
     {
       type: "div",
       props: {
         style: {
-          background: "#fefbfb",
           width: "100%",
           height: "100%",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          flexDirection: "row",
+          fontFamily: "Heebo, IBM Plex Mono",
         },
         children: [
           {
-            type: "div",
+            type: "img",
             props: {
-              style: {
-                position: "absolute",
-                top: "-1px",
-                right: "-1px",
-                border: "4px solid #000",
-                background: "#ecebeb",
-                opacity: "0.9",
-                borderRadius: "4px",
-                display: "flex",
-                justifyContent: "center",
-                margin: "2.5rem",
-                width: "88%",
-                height: "80%",
-              },
+              src: cover,
+              style: { width: 540, height: 630, objectFit: "cover" },
             },
           },
           {
             type: "div",
             props: {
               style: {
-                border: "4px solid #000",
-                background: "#fefbfb",
-                borderRadius: "4px",
+                width: 660,
+                height: 630,
+                backgroundColor: PANEL_BG,
                 display: "flex",
-                justifyContent: "center",
-                margin: "2rem",
-                width: "88%",
-                height: "80%",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                padding: "44px 48px",
               },
-              children: {
-                type: "div",
-                props: {
-                  style: {
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    margin: "20px",
-                    width: "90%",
-                    height: "90%",
+              children: [
+                {
+                  type: "div",
+                  props: {
+                    style: { display: "flex", alignItems: "center", gap: 12 },
+                    children: [
+                      {
+                        type: "img",
+                        props: {
+                          src: badge,
+                          width: 48,
+                          height: 48,
+                          style: {
+                            borderRadius: 24,
+                            border: "2px solid rgba(165,180,252,0.6)",
+                          },
+                        },
+                      },
+                      {
+                        type: "div",
+                        props: {
+                          style: { fontSize: 26, fontWeight: "bold", color: ACCENT },
+                          children: rtl(SITE.title),
+                        },
+                      },
+                    ],
                   },
-                  children: [
-                    {
-                      type: "div",
-                      props: {
-                        style: {
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          height: "90%",
-                          maxHeight: "90%",
-                          overflow: "hidden",
-                          textAlign: "center",
-                        },
-                        children: [
-                          {
-                            type: "p",
-                            props: {
-                              style: { fontSize: 72, fontWeight: "bold" },
-                              children: SITE.title,
-                            },
-                          },
-                          {
-                            type: "p",
-                            props: {
-                              style: { fontSize: 28 },
-                              children: SITE.desc,
-                            },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      type: "div",
-                      props: {
-                        style: {
-                          display: "flex",
-                          justifyContent: "flex-end",
-                          width: "100%",
-                          marginBottom: "8px",
-                          fontSize: 28,
-                        },
-                        children: {
-                          type: "span",
-                          props: {
-                            style: { overflow: "hidden", fontWeight: "bold" },
-                            children: new URL(SITE.website).hostname,
-                          },
-                        },
-                      },
-                    },
-                  ],
                 },
-              },
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-end",
+                      gap: 18,
+                    },
+                    children: [
+                      {
+                        type: "div",
+                        props: {
+                          style: { fontSize: 60, fontWeight: "bold", color: "#ffffff" },
+                          children: rtl(SITE.title),
+                        },
+                      },
+                      {
+                        type: "div",
+                        props: {
+                          style: { fontSize: 28, color: "#c7d2fe", lineHeight: 1.4 },
+                          children: rtl(SITE.desc),
+                        },
+                      },
+                      {
+                        type: "div",
+                        props: {
+                          style: { fontSize: 22, color: ACCENT },
+                          children: hostname,
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
             },
           },
         ],
       },
     },
-    {
-      width: 1200,
-      height: 630,
-      embedFont: true,
-      fonts: await loadGoogleFonts(SITE.title + SITE.desc + SITE.website),
-    }
+    { width: 1200, height: 630, embedFont: true, fonts }
   );
 };
