@@ -1,7 +1,8 @@
 ---
-title: "Gemini API חינמי: המדריך המעשי להתחלה עם Google AI Studio"
+title: "ג׳ימיני API חינמי בעברית: המדריך המעשי ל-Google AI Studio"
 description: "איך להוציא מפתח Gemini API חינמי ללא חיוב, ולחבר אותו לכלים אמיתיים: AnythingLLM, עורכי קוד, בוטים ואוטומציות. המדריך המלא לשימוש חכם ב-Google AI Studio."
 pubDatetime: 2026-04-21T13:54:10+03:00
+modDatetime: 2026-11-01T13:45:00+02:00
 author: עולם ה AI
 tags:
   - Gemini API
@@ -22,6 +23,8 @@ faqs:
   - question: "מה קורה כשמגיעים למגבלת הקצב (Rate Limit)?"
     answer: "גוגל מחזירה קוד שגיאה 429. ניתן להוסיף השהייה קלה (Delay) בין הבקשות או לעבור לשכבת בילינג Pay-as-you-go רק במידת הצורך."
 ---
+
+מדריך בעברית ל-Gemini API ול-Google AI Studio: איך מוציאים מפתח API בשכבה החינמית, בלי צורך בכרטיס אשראי, ומה עושים איתו אחר כך. לשכבה החינמית יש מגבלות קצב ולא כל המודלים זמינים בה, ולכן נסמן גם מתי משתלם לשדרג.
 
 <!-- Apple-Style Key Takeaways Hero Card -->
 <div class="my-8 rounded-2xl border border-indigo-200/80 bg-gradient-to-br from-indigo-50/70 via-purple-50/40 to-background p-6 sm:p-8 dark:border-indigo-900/60 dark:from-indigo-950/30 dark:via-purple-950/20 shadow-sm not-prose">
