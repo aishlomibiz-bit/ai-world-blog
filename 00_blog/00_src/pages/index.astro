@@ -10,6 +10,7 @@ import getSortedPosts from "@/utils/getSortedPosts";
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import TelegramCTA from "@/components/TelegramCTA.astro";
+import FreeGuidesCTA from "@/components/FreeGuidesCTA.astro";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
 
@@ -92,6 +93,8 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         </a>
       </div>
     </section>
+
+    <FreeGuidesCTA />
 
     {
       featuredPosts.length > 0 && (
