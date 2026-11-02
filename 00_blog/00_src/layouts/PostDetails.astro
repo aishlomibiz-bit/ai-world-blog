@@ -10,8 +10,7 @@ import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import TelegramCTA from "@/components/TelegramCTA.astro";
-import LeadGen from "@/components/LeadGen.astro";
-import LeadPopup from "@/components/LeadPopup.astro";
+import FreeGuidesCTA from "@/components/FreeGuidesCTA.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -220,9 +219,7 @@ const nextPost =
       )
     }
 
-    <LeadGen postTitle={title} guideTitle={post.data.guideTitle} />
-
-    <LeadPopup postTitle={title} guideTitle={post.data.guideTitle} />
+    <FreeGuidesCTA />
 
     <TelegramCTA centered />
   </main>
