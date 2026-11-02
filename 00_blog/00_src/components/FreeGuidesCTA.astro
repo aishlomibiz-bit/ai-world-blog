@@ -1,0 +1,26 @@
+---
+const FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSe0qzPe8CjN1LAB9yXwbDwaPZ6jdBq97F_dT4HU1W1OA1Gtzg/viewform";
+---
+
+<section
+  class="relative overflow-hidden rounded-3xl border border-border mt-12 mb-8"
+  id="free-guides-cta"
+>
+  <div class="relative p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 bg-gradient-to-br from-accent/10 via-background to-accent/5">
+    <div class="max-w-xl text-center sm:text-start">
+      <p class="text-2xl font-extrabold tracking-tight mb-2">מדריכים חינמיים</p>
+      <p class="text-foreground/80 text-lg leading-relaxed">
+        בחרו מדריך אחד או שניים וקבלו אותם ישירות למייל, בחינם.
+      </p>
+    </div>
+    <a
+      href={FORM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="premium-btn py-3 px-8 text-lg font-bold hover:scale-105 active:scale-95 shrink-0"
+    >
+      לקבלת המדריכים
+    </a>
+  </div>
+</section>
