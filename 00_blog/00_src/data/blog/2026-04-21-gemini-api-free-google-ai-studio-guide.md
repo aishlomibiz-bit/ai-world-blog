@@ -1,6 +1,6 @@
 ---
 title: "ג׳ימיני API חינמי בעברית: המדריך המעשי ל-Google AI Studio"
-description: "איך להוציא מפתח Gemini API חינמי ללא חיוב, ולחבר אותו לכלים אמיתיים: AnythingLLM, עורכי קוד, בוטים ואוטומציות. המדריך המלא לשימוש חכם ב-Google AI Studio."
+description: "מדריך בעברית להתחלה עם Gemini API ו־Google AI Studio: הוצאת מפתח, בדיקת מכסות ותנאי מידע, וחיבור ל־AnythingLLM ולאוטומציות."
 pubDatetime: 2026-04-21T13:54:10+03:00
 modDatetime: 2026-11-01T13:45:00+02:00
 author: עולם ה AI
@@ -14,14 +14,14 @@ featured: true
 draft: false
 ogImage: /images/posts/gemini-api-google-ai-studio-header.png
 faqs:
-  - question: "האם השימוש ב-Gemini API באמת חינמי לחלוטין?"
-    answer: "כן, Google AI Studio מציעה שכבת Free Tier אמיתית ללא צורך בהזנת כרטיס אשראי או אמצעי תשלום, עם מכסות נדיבות לכל המודלים המובילים (Gemini 2.5 Flash, Pro ו-Flash-Lite)."
+  - question: "האם Gemini API תמיד חינמי?"
+    answer: "קיימת שכבה חינמית למודלים ולשימושים נתמכים. יש מכסות ותנאי שימוש במידע, ולא כל מודל או תכונה כלולים. בדקו את שכבת הפרויקט לפני הפעלה; מעבר למסלול בתשלום הוא בחירה נפרדת."
   - question: "האם Google AI Studio מתאים גם למי שלא יודע לתכנת?"
     answer: "בהחלט. ניתן להשתמש ב-Google AI Studio כמגרש משחקים לבדיקת פרומפטים ישירות בדפדפן, או להעתיק את ה-API Key לתוכנות שולחניות כמו AnythingLLM שעובדות ללא קוד כלל."
   - question: "איך שומרים על מפתח ה-API שלא ייחשף או ייגנב?"
     answer: "מומלץ לשמור את המפתח בקובץ .env כמשתנה סביבה מקומי ולא להעלות אותו לעולם ישירות ל-GitHub או לרשתות חברתיות."
   - question: "מה קורה כשמגיעים למגבלת הקצב (Rate Limit)?"
-    answer: "גוגל מחזירה קוד שגיאה 429. ניתן להוסיף השהייה קלה (Delay) בין הבקשות או לעבור לשכבת בילינג Pay-as-you-go רק במידת הצורך."
+    answer: "ייתכן שנחרגה מכסת בקשות או טוקנים. בדקו איזו מגבלה הושגה והשתמשו בהמתנה ובהפחתת קצב לפי הנחיות Google. השהייה קצרה אינה פותרת בהכרח מכסה יומית. אל תפעילו חיוב בלי לבדוק עלויות ותנאים."
 ---
 
 מדריך בעברית ל-Gemini API ול-Google AI Studio: איך מוציאים מפתח API בשכבה החינמית, בלי צורך בכרטיס אשראי, ומה עושים איתו אחר כך. לשכבה החינמית יש מגבלות קצב ולא כל המודלים זמינים בה, ולכן נסמן גם מתי משתלם לשדרג.
@@ -33,20 +33,20 @@ faqs:
 <span class="text-xs text-muted-foreground font-medium">זמן קריאה: 5 דקות</span>
 </div>
 <p class="mt-4 text-base sm:text-lg leading-relaxed text-foreground font-semibold">
-אתם בטח חושבים ש-Gemini API זה משהו שפותחים רק אחרי שמכניסים כרטיס אשראי, ממלאים טפסי בילינג, ומקווים שהחשבונית לא תפתיע. בפועל? גוגל פתחה <span class="text-indigo-600 dark:text-indigo-400 font-bold underline decoration-indigo-300">שכבת שימוש חינמית לחלוטין</span> – ללא חיוב, ללא פרטי תשלום וללא אותיות קטנות.
+אפשר להתחיל עם Gemini API בשכבה חינמית, בכפוף למודלים, למכסות ולתנאים הזמינים בפרויקט שלכם. חינם לא אומר שימוש בלתי מוגבל או עיבוד מקומי: לפני שמחברים מסמכים, בדקו גם את תנאי השימוש במידע.
 </p>
 <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-indigo-200/60 dark:border-indigo-900/50 text-sm font-medium">
 <div class="flex items-center gap-2 text-foreground">
 <span class="flex size-5 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-bold text-xs">✓</span>
-<span>ללא צורך בכרטיס אשראי</span>
+<span>שכבה חינמית למודלים נתמכים</span>
 </div>
 <div class="flex items-center gap-2 text-foreground">
 <span class="flex size-5 items-center justify-center rounded-full bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 font-bold text-xs">✓</span>
-<span>חיבור ישיר ל-AnythingLLM ולקוד</span>
+<span>חיבור ל־AnythingLLM ולקוד</span>
 </div>
 <div class="flex items-center gap-2 text-foreground">
 <span class="flex size-5 items-center justify-center rounded-full bg-purple-500/15 text-purple-600 dark:text-purple-400 font-bold text-xs">✓</span>
-<span>עד 250K טוקנים לדקה חינם</span>
+<span>המכסות נבדקות ב־AI Studio</span>
 </div>
 </div>
 </div>
@@ -70,7 +70,7 @@ faqs:
 <div class="space-y-3.5 text-sm text-foreground">
 <div class="border-b border-border/40 pb-3">
 <div class="font-bold text-foreground">גישה ישירה למודלי הדגל</div>
-<div class="text-xs sm:text-sm text-muted-foreground mt-0.5 leading-relaxed">שימוש ישיר במודלים החזקים ביותר (Gemini 2.5 Pro ו-Flash) עוד לפני שהם מוטמעים במערכות מסחריות.</div>
+<div class="text-xs sm:text-sm text-muted-foreground mt-0.5 leading-relaxed">בחירה בין המודלים הזמינים בפרויקט שלכם, בהתאם לשכבת השימוש.</div>
 </div>
 <div class="border-b border-border/40 pb-3">
 <div class="font-bold text-foreground">שליטה מלאה בהנחיות המודל</div>
@@ -99,7 +99,7 @@ faqs:
 </div>
 <div>
 <div class="font-bold text-foreground">שכבת Free Tier נדיבה</div>
-<div class="text-xs sm:text-sm text-muted-foreground mt-0.5 leading-relaxed">התנסות מעשית, בדיקת רעיונות ובניית כלים אישיים ללא שום עלות או דרישת כרטיס אשראי.</div>
+<div class="text-xs sm:text-sm text-muted-foreground mt-0.5 leading-relaxed">התנסות בשכבה החינמית, בכפוף לזמינות ולמכסות הפרויקט.</div>
 </div>
 </div>
 </div>
@@ -140,56 +140,9 @@ faqs:
 
 ## 2. השוואת מודלים בשכבת החינם (Free Tier)
 
-גוגל מספקת 3 מודלים מתקדמים בשכבה החינמית. הנה ההבדלים המדויקים ביניהם:
+אילו מודלים ומכסות זמינים לכם? הזמינות והמגבלות משתנות לפי המודל, הפרויקט ושכבת השימוש. פתחו את מסך המכסות ב־Google AI Studio לפני הבחירה. מגבלה עשויה להיות לפי בקשות לדקה, טוקנים לדקה או בקשות ליום; עמידה באחת אינה מבטיחה עמידה באחרות.
 
-<!-- Apple-Style Model Row Stack -->
-<div class="my-6 space-y-4 not-prose">
-<div class="relative rounded-2xl border-2 border-indigo-500/50 bg-gradient-to-r from-indigo-500/10 via-purple-500/5 to-transparent p-6 shadow-sm">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-<div>
-<div class="flex items-center gap-2">
-<h3 class="text-lg font-black text-foreground">Gemini 2.5 Flash</h3>
-<span class="rounded-full bg-indigo-600 px-2.5 py-0.5 text-[11px] font-bold text-white shadow-xs">הבחירה המומלצת ⭐</span>
-</div>
-<p class="mt-1 text-sm text-muted-foreground">האיזון המושלם בין מהירות גבוהה לאיכות מעולה. מתאים לרוב המשימות היומיומיות.</p>
-</div>
-<div class="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
-<span class="rounded-xl border border-indigo-200 bg-background/80 px-3 py-1.5 text-xs font-bold text-foreground dark:border-indigo-900">⚡ 10 בקשות/דקה</span>
-<span class="rounded-xl border border-indigo-200 bg-background/80 px-3 py-1.5 text-xs font-bold text-foreground dark:border-indigo-900">📅 250 בקשות/יום</span>
-</div>
-</div>
-</div>
-<div class="rounded-2xl border border-border bg-muted/30 p-6 transition-all hover:bg-muted/50">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-<div>
-<div class="flex items-center gap-2">
-<h3 class="text-lg font-black text-foreground">Gemini 2.5 Pro</h3>
-<span class="rounded-full bg-purple-500/15 text-purple-700 dark:text-purple-300 px-2.5 py-0.5 text-[11px] font-bold">חשיבה עמוקה (Reasoning)</span>
-</div>
-<p class="mt-1 text-sm text-muted-foreground">מודל הדגל של גוגל לניתוח לוגיקה מורכבת, ארכיטקטורת קוד ומחקרים אקדמיים.</p>
-</div>
-<div class="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
-<span class="rounded-xl border border-border bg-background/80 px-3 py-1.5 text-xs font-bold text-foreground">🧠 5 בקשות/דקה</span>
-<span class="rounded-xl border border-border bg-background/80 px-3 py-1.5 text-xs font-bold text-foreground">📅 100 בקשות/יום</span>
-</div>
-</div>
-</div>
-<div class="rounded-2xl border border-border bg-muted/30 p-6 transition-all hover:bg-muted/50">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-<div>
-<div class="flex items-center gap-2">
-<h3 class="text-lg font-black text-foreground">Gemini 2.5 Flash-Lite</h3>
-<span class="rounded-full bg-slate-500/15 text-foreground px-2.5 py-0.5 text-[11px] font-bold">נפח ומהירות מקסימלית</span>
-</div>
-<p class="mt-1 text-sm text-muted-foreground">מהירות בזק לעיבוד כמויות גדולות של נתונים, תיוג, סיכומים וקטגוריזציה מהירה.</p>
-</div>
-<div class="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
-<span class="rounded-xl border border-border bg-background/80 px-3 py-1.5 text-xs font-bold text-foreground">🚀 15 בקשות/דקה</span>
-<span class="rounded-xl border border-border bg-background/80 px-3 py-1.5 text-xs font-bold text-foreground">📅 1,000 בקשות/יום</span>
-</div>
-</div>
-</div>
-</div>
+[מכסות ומגבלות Gemini API בתיעוד הרשמי](https://ai.google.dev/gemini-api/docs/rate-limits)
 
 ---
 
@@ -225,7 +178,7 @@ faqs:
 
 ## 3. אינטגרציות מעשיות: לאן לחבר את המפתח החינמי?
 
-### א. AnythingLLM — העוזר האישי הפרטי שלכם על המחשב (ללא קוד!)
+### א. AnythingLLM: עבודה עם מסמכים, בהתאם לספק המודל
 
 אם אתם לא מתכנתים, זו כנראה האפליקציה השימושית ביותר שתוכלו להתקין היום.
 
@@ -234,21 +187,27 @@ faqs:
 <div class="flex size-10 items-center justify-center rounded-xl bg-indigo-600 text-white text-xl shadow-xs">📁</div>
 <div>
 <h4 class="text-base font-bold text-foreground">מה זה AnythingLLM ולמה זה מושלם לעסקים?</h4>
-<p class="text-xs text-muted-foreground">אפליקציית מחשב חינמית (Windows / Mac) שמתפקדת כ-ChatGPT פרטי לגמרי שרץ על המסמכים שלכם.</p>
+<p class="text-xs text-muted-foreground">AnythingLLM מאפשר לעבוד עם מסמכים דרך ספק מודל שתבחרו. כשמחברים אותו ל־Gemini API, הבקשות וההקשר שנשלח למודל מעובדים אצל Google.</p>
 </div>
 </div>
 
 <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-foreground/90 border-t border-border/50 pt-4">
 <div class="rounded-xl border border-border/60 bg-background/50 p-3.5">
-<div class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">🔒 פרטיות ואבטחת מידע מוחלטת</div>
-<div class="text-muted-foreground leading-relaxed">המסמכים, החוזים והדוחות הכספיים שלכם נשמרים אך ורק על המחשב האישי. הם אינם מועלים לענן ציבורי ואינם משמשים לאימון מודלים.</div>
+<div class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">🔒 מסלול המידע תלוי בספק ובהגדרות</div>
+<div class="text-muted-foreground leading-relaxed">התקנה על המחשב אינה הופכת את העיבוד למקומי. גם ספק ההטמעות והגדרות הכלי משפיעים על מסלול המידע.</div>
 </div>
 <div class="rounded-xl border border-border/60 bg-background/50 p-3.5">
 <div class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">⚡ שימוש במוח של Gemini בחינם</div>
-<div class="text-muted-foreground leading-relaxed">מדביקים את מפתח ה-API שהוצאתם, ו-AnythingLLM רותמת את המודלים של גוגל כדי לענות על שאלות מתוך הקבצים שלכם בדיוק גבוה.</div>
+<div class="text-muted-foreground leading-relaxed">הכלי יכול להיעזר בתוכן מהמסמכים כדי לענות; צריך לבדוק תשובות מול המקור.</div>
 </div>
 </div>
 </div>
+
+חשוב לדעת לפני שמעלים מידע: בתנאי השירות של Google, שימוש בשירותים הלא־משולמים עשוי לכלול שימוש בקלט ובתשובות לשיפור מוצרים וטכנולוגיות, וגם בדיקה אנושית. Google מזהירה לא למסור לשירותים האלה מידע רגיש, סודי או אישי. תנאי המידע שונים בשירותים בתשלום ובאזורים מסוימים, ובהם EEA, שווייץ ובריטניה. בדקו את התנאים שחלים על החשבון והפרויקט שלכם; גם שירות בתשלום אינו הבטחה לאפס שמירה או אפס עיבוד מידע.
+
+[תנאי השירות הרשמיים של Gemini API](https://ai.google.dev/gemini-api/terms) · [הגדרת ספק Gemini ב־AnythingLLM](https://docs.anythingllm.com/setup/llm-configuration/cloud/google-gemini)
+
+בתרגול השתמשו בקובץ דוגמה ללא מידע אישי, סודי או של לקוחות.
 
 #### איך מפעילים את זה ב-4 צעדים פשוטים?
 1. מורידים ומתקינים את [AnythingLLM](https://anythingllm.com) למחשב.
@@ -275,11 +234,11 @@ faqs:
 <!-- FAQ 1 (Open by default) -->
 <details open class="group rounded-2xl border border-border bg-muted/20 p-5 transition-all hover:bg-muted/35 open:border-indigo-500/40 open:bg-indigo-50/20 dark:open:bg-indigo-950/20">
 <summary class="flex cursor-pointer items-center justify-between font-bold text-foreground text-base list-none">
-<span>האם השימוש ב-Gemini API באמת חינמי לחלוטין?</span>
+<span>האם Gemini API תמיד חינמי?</span>
 <span class="text-xs text-muted-foreground transition-transform duration-300 group-open:rotate-180">▼</span>
 </summary>
 <div class="mt-3 text-sm text-muted-foreground leading-relaxed border-t border-border/40 pt-3">
-כן, Google AI Studio מציעה שכבת Free Tier אמיתית ללא צורך בהזנת כרטיס אשראי או אמצעי תשלום, עם מכסות נדיבות לכל המודלים המובילים (Gemini 2.5 Flash, Pro ו-Flash-Lite).
+קיימת שכבה חינמית למודלים ולשימושים נתמכים. יש מכסות ותנאי שימוש במידע, ולא כל מודל או תכונה כלולים. בדקו את שכבת הפרויקט לפני הפעלה; מעבר למסלול בתשלום הוא בחירה נפרדת.
 </div>
 </details>
 
@@ -312,7 +271,7 @@ faqs:
 <span class="text-xs text-muted-foreground transition-transform duration-300 group-open:rotate-180">▼</span>
 </summary>
 <div class="mt-3 text-sm text-muted-foreground leading-relaxed border-t border-border/40 pt-3">
-גוגל מחזירה קוד שגיאה 429. ניתן להוסיף השהייה קלה (Delay) בין הבקשות או לעבור לשכבת בילינג Pay-as-you-go רק במידת הצורך.
+ייתכן שנחרגה מכסת בקשות או טוקנים. בדקו איזו מגבלה הושגה והשתמשו בהמתנה ובהפחתת קצב לפי הנחיות Google. השהייה קצרה אינה פותרת בהכרח מכסה יומית. אל תפעילו חיוב בלי לבדוק עלויות ותנאים.
 </div>
 </details>
 </div>
