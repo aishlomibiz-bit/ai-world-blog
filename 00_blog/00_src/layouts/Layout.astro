@@ -249,10 +249,10 @@ if (breadcrumbs && breadcrumbs.length > 0) {
       // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
       // include google-site-verification tag in the heading
       // Learn more: https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag
-      PUBLIC_GOOGLE_SITE_VERIFICATION && (
+      (PUBLIC_GOOGLE_SITE_VERIFICATION || "5Si0qUnSmp6654eOCwquUmwm8cJyoCMuF_5wJNXe2X4") && (
         <meta
           name="google-site-verification"
-          content={PUBLIC_GOOGLE_SITE_VERIFICATION}
+          content={PUBLIC_GOOGLE_SITE_VERIFICATION || "5Si0qUnSmp6654eOCwquUmwm8cJyoCMuF_5wJNXe2X4"}
         />
       )
     }
