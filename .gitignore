@@ -13,6 +13,7 @@ credentials*.json
 *credentials*
 
 # Node / Astro
+00_website/
 node_modules/
 dist/
 .astro/

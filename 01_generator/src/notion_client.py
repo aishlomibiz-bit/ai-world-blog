@@ -43,7 +43,7 @@ class NotionClient:
             if not results:
                 return None
 
-            # Iterate through results to find one with a valid URL
+            # Iterate through results to find an item with either a URL or raw content/origin post
             for page in results:
                 props = page.get("properties", {})
 
@@ -51,9 +51,25 @@ class NotionClient:
                 url_prop = props.get("URL מקור", {})
                 url = url_prop.get("url")
 
-                # Skip if no URL or if URL doesn't start with http (invalid format)
-                if not url or not url.startswith(("http://", "https://")):
+                # Extract raw origin text / email content if available
+                origin_prop = props.get("origin post ", {}) or props.get("תוכן המייל", {})
+                raw_origin_text = "".join([t.get("plain_text", "") for t in origin_prop.get("rich_text", [])]).strip()
+
+                # Extract Title
+                title = "Untitled"
+                for p in props.values():
+                    if p.get("type") == "title" and p.get("title"):
+                        title = p["title"][0]["plain_text"]
+                        break
+
+                # If no valid HTTP URL and no raw content, skip
+                has_http_url = bool(url and url.startswith(("http://", "https://")))
+                if not has_http_url and not raw_origin_text:
                     continue
+
+                # If URL is not valid HTTP, set a pseudo URL identifier
+                if not has_http_url:
+                    url = f"notion-origin://{page['id']}"
 
                 # Extract Tags from "קטגוריה"
                 tags_prop = props.get("קטגוריה", {})
@@ -66,7 +82,9 @@ class NotionClient:
                     type="tool_explainer",
                     priority=1,
                     tags=tags,
-                    notion_page_id=page["id"]
+                    notion_page_id=page["id"],
+                    title=title,
+                    raw_content=raw_origin_text if raw_origin_text else None
                 )
                 return topic
 

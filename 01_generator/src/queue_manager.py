@@ -15,6 +15,8 @@ class Topic:
     priority: int = 1
     tags: list[str] = field(default_factory=list)
     notion_page_id: str | None = None
+    title: str | None = None
+    raw_content: str | None = None
 
 
 def get_next(skip_dedup: bool = False) -> Topic | None:
