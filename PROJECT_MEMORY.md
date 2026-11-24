@@ -57,6 +57,47 @@
 
 ## 📜 Session History (Reverse Chronological)
 
+### [2026-11-25] Session: ICM Architecture Transformation, Notion Dual-Ingest, Hebrew Reviewer & AI Originality Post
+- **Goal**: Implement Interpretable Context Methodology (ICM) across the repository, audit/upgrade the Notion pipeline for email/URL ingestion, add a Hebrew Language Reviewer, and deploy the pending "Unpopular" AI Originality article.
+- **What Was Done**:
+  - **Full ICM Architecture**:
+    - Created `03_docs/VISION_AND_STRATEGY.md` codifying the project North Star, monetization engine, target personas, and EEAT voice.
+    - Created lean root `AGENTS.md` router (<60 lines) and single-line agent pointers (`GEMINI.md`, `CLAUDE.md`).
+    - Established strict `CONTEXT.md` contracts across all 9 numbered folders (`00_` through `08_`).
+    - Implemented `02_scripts/04_debug_and_tests/quality_gate.py` to enforce frontmatter, image existence, Hebrew alt tags, and draft checks.
+  - **Notion Pipeline Review & Dual Ingest**:
+    - Identified that legacy `notion_client.py` dropped email submissions because `URL מקור` did not start with `http`.
+    - Upgraded `notion_client.py` and `queue_manager.py` to support dual ingestion (HTTP URLs or raw `origin post ` email transcripts).
+  - **Hebrew Style & Language Reviewer**:
+    - Created `01_generator/prompts/hebrew_reviewer.md` and `03_docs/guides/hebrew-reviewer-guide.md` establishing strict anti-"תרגמת" rules, natural spoken phrasing, and Latin-script tech terms.
+    - Embedded Core Invariant #5 in `AGENTS.md`: Autonomous Visual Pre-Flight Review rule (browser agent must inspect and fix contrast/layout before human review).
+  - **End-to-End Post Production & Publishing**:
+    - Processed Notion post "Unpopular." -> published `2026-11-24-how-to-get-original-answers-from-ai.md` (1,200+ words).
+    - Rendered clean 16:9 cover image with Playwright typography: `2026-11-24-how-to-get-original-answers-from-ai.jpg`.
+    - Upgraded Google AI Pro CTA banner into a Bento Card and made related posts cards theme-adaptive.
+    - Automated verification: `quality_gate.py` passed with 0 errors, Astro built 176 pages in 13.5s.
+    - Deployed to GitHub `main` -> live on Vercel (`https://ai-world-blog.vercel.app/posts/2026-11-24-how-to-get-original-answers-from-ai/`).
+    - Submitted to Google Search Console (sitemap refreshed + URL inspected).
+    - Updated Notion database row to `published` with final post body, score 9, meta description, and Facebook post copy.
+  - **Repeatable Tooling**:
+    - Created `02_scripts/03_notion_tools/run_pipeline.py` with `--list` for processing remaining Notion posts.
+- **Key Architectural Decisions & Gotchas**:
+  - *Gotcha:* Playwright initial cover rendering had an edge offset causing a white bar on the left and clipped Hebrew text on the right. Resolved by explicit HTML/body bounding, radial gradient canvas, and 70px internal padding.
+  - *Gotcha:* Notion API rejected property updates when `rich_text` wrapped a list directly instead of `{'rich_text': [{'text': {'content': ...}}]}`. Resolved with proper chunking.
+  - *Rule Added:* Invariant #5 — Autonomous Visual Pre-Flight Review is now mandatory before presenting any localhost URL.
+- **Files Modified / Created**:
+  - `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`
+  - `00_blog/CONTEXT.md`, `01_generator/CONTEXT.md`, `02_scripts/CONTEXT.md`, `03_docs/CONTEXT.md`, `04_`-`08_` `CONTEXT.md`
+  - `03_docs/VISION_AND_STRATEGY.md`, `03_docs/guides/hebrew-reviewer-guide.md`
+  - `01_generator/prompts/hebrew_reviewer.md`, `01_generator/src/notion_client.py`, `01_generator/src/queue_manager.py`
+  - `02_scripts/04_debug_and_tests/quality_gate.py`, `02_scripts/04_debug_and_tests/render_cover.py`
+  - `02_scripts/03_notion_tools/run_pipeline.py`
+  - `00_blog/00_src/data/blog/2026-11-24-how-to-get-original-answers-from-ai.md`
+  - `00_blog/01_public/images/posts/2026-11-24-how-to-get-original-answers-from-ai.jpg`
+- **Next Steps & Pending Items**:
+  - [ ] Process remaining 2 pending Notion posts: `Build your Personal AI Handbook` and `REA = Reverse Engineer Anything (in 9 minutes)`.
+  - [ ] Apply `WhatsAppCTA.astro` to other pages (`AboutLayout.astro`, `index.astro`).
+
 ### [2026-11-24] Session: Personal AI Handbook Post, Hybrid 3D Cover, WhatsApp CTA & Gumroad Catalog
 - **Goal**: Process pending Notion post "Build your Personal AI Handbook", upgrade Zero-Click styling, replace Telegram with WhatsApp, integrate Gumroad product catalog, and deploy to production.
 - **What Was Done**:
