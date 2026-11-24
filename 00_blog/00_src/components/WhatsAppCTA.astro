@@ -1,0 +1,54 @@
+---
+import IconWhatsapp from "@/assets/icons/IconWhatsapp.svg";
+
+interface Props {
+  centered?: boolean;
+  class?: string;
+}
+
+const { centered = false, class: className } = Astro.props;
+const WHATSAPP_COMMUNITY_URL = "https://chat.whatsapp.com/F1Y1Q35QIZ3L6rcrXuEnNN";
+---
+
+<section 
+  class:list={[
+    "relative overflow-hidden rounded-3xl premium-shadow border border-[#25D366]/30 mt-12 mb-8 bg-gradient-to-br from-[#25D366]/10 via-background to-[#128C7E]/10",
+    centered ? "text-center" : "",
+    className
+  ]}
+  id="whatsapp-community-cta"
+  data-pagefind-ignore
+>
+  <!-- Background glow accents -->
+  <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#25D366]/20 blur-3xl pointer-events-none"></div>
+  <div class="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-[#128C7E]/15 blur-3xl pointer-events-none"></div>
+
+  <div class="relative glassmorphism p-6 sm:p-10 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+    <div class="max-w-xl text-center md:text-start">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#25D366]/15 text-[#25D366] text-xs font-bold uppercase tracking-wider mb-4 border border-[#25D366]/30">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-[#25D366]"></span>
+        </span>
+        קהילת ה-AI של ישראל בוואטסאפ
+      </div>
+      <div class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3 text-foreground leading-snug">
+        רוצים להישאר מעודכנים לפני כולם?
+      </div>
+      <p class="text-foreground/85 text-base sm:text-lg leading-relaxed">
+        הצטרפו לקבוצת הוואטסאפ שלנו: עדכונים חמים על כלי AI חדשים, פרומפטים בלעדיים, דיונים מקצועיים וטיפים מעשיים — ישר לנייד שלכם.
+      </p>
+    </div>
+
+    <a 
+      href={WHATSAPP_COMMUNITY_URL} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      data-umami-event="whatsapp-community-click"
+      class="inline-flex items-center justify-center gap-3 py-4 px-8 text-lg font-bold rounded-2xl bg-[#25D366] text-white hover:bg-[#20ba5a] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#25D366]/25 shrink-0 group w-full md:w-auto text-center"
+    >
+      <span>להצטרפות לקהילה בוואטסאפ</span>
+      <IconWhatsapp class="w-6 h-6 stroke-current group-hover:rotate-12 transition-transform" />
+    </a>
+  </div>
+</section>
