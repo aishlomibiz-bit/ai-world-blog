@@ -52,10 +52,62 @@
    - Route CTAs contextually using `00_blog/02_scripts/lib/products-catalog.json` (free lead magnets + paid guides) alongside the Google AI Pro deal.
 8. **Autonomous Visual Pre-Flight Review**:
    - Always inspect the localhost preview using the browser subagent in **both Dark Mode and Light Mode** before presenting URLs to the user.
+9. **Tailwind Typography Theme Specificity (CSS Classes vs Inline Styles)**:
+   - Tailwind Typography (`.app-prose`) forces `text-foreground` on all `<p>`, `<strong>`, and `<code>` tags.
+   - For callout cards (Zero-Click, Bento Grid, Prompt Box), do NOT rely on container inline styles. Use dedicated theme-aware CSS classes (`.zero-click-box`, `.prompt-callout-box`, `.bento-grid`) with explicit `html[data-theme="light"]` and `html[data-theme="dark"]` rules in `typography.css`.
+10. **Micro-Copy & Brand Guidelines**:
+   - Never use outdated clichés like "ספר עב-כרס" for digital downloads; always use "ספר דיגיטלי מקיף (415 עמודים)".
+   - Never expose third-party backend platforms like "Gumroad" to readers; brand all resources as "חנות המדריכים שלנו" / "חנות המדריכים של עולם ה-AI".
+11. **Commercial Offer Hygiene**:
+   - The Google AI Pro subsidized deal is officially retired and must never be injected into new posts or CTAs.
+   - Feature active free lead magnets: *ספר הפרומפטים העולמי*, *50 הנחיות Copilot*, *ספריית 25 Gemini Skills*, or *מדריך משימות מתוזמנות*.
+12. **Public Downloads `.gitignore` Invariant**:
+   - Root `.gitignore` has a global `downloads/` rule. Always preserve `!00_blog/01_public/downloads/` so downloadable skills and assets are properly tracked in Git.
 
 ---
 
 ## 📜 Session History (Reverse Chronological)
+
+### [2026-11-27] Session: Claude Reading Bottleneck & /tldr Skill Post, 9 Tutorial Images, Hebrew CPA Case Study & Deployment
+- **Goal**: Select unstarted candidate from Notion ("פוסט חדש על קלוד - READING"), synthesize Hebrew article on overcoming the Claude reading bottleneck, embed 9 tutorial images + authentic Hebrew CPA case study, establish Micro-Copy rules, update CTAs (50 Copilot prompts), and deploy live to production with GSC indexing.
+- **What Was Done**:
+  - **Candidate Selection & Synthesis**:
+    - Polled Notion database (`33d927f0-e154-80ed-8e8a-d00e60e47fbb`) -> selected unstarted post based on Ruben Hassid's newsletter.
+    - Generated full 1,300+ word article: `2026-11-27-claude-reading-bottleneck-decision-prompt-guide.md`.
+    - Applied Hebrew Language Reviewer pass to eliminate translationese and enforce natural Israeli tone.
+  - **Visual & Component Redesign**:
+    - Identified theme contrast issue where `.app-prose` forced white-on-white text in dark mode and dark-on-dark in light mode.
+    - Added theme-adaptive classes to `typography.css`: `.zero-click-box`, `.bento-grid`, `.bento-card` (4 color-coded cards: ⚡, 📊, 🎯, ⚖️), and `.prompt-callout-box`.
+    - Downloaded and embedded 9 step-by-step tutorial images into `00_blog/01_public/images/posts/claude-tldr/` (omitted unrelated newsletter images).
+    - Integrated 2 authentic Hebrew CPA growth decision screenshots uploaded by user (`claude-tldr-cpa-example-prompt.jpg`, `claude-tldr-cpa-example-decision.jpg`).
+    - Connected Skill download button to official GitHub Skills repo: `https://ronenamos-arch.github.io/claude-skills/skills/tldr/`.
+  - **Micro-Copy & CTA Overhaul**:
+    - Created `01_generator/prompts/micro_copy_reviewer.md` codifying anti-cliché ("ספר דיגיטלי" instead of "ספר עב-כרס") and brand-first ("חנות המדריכים שלנו" instead of "Gumroad") rules.
+    - Retired Google AI Pro subsidized deal from post and `products-catalog.json`.
+    - Replaced with the free `50 הנחיות Copilot לעבודה ולאופיס` guide (`https://ronenamos.gumroad.com/l/50-copilot`).
+  - **Quality Gates & Deployment**:
+    - Ran `quality_gate.py`: 0 errors, 0 warnings.
+    - Human review approved -> flipped `draft: true` to `draft: false`.
+    - Committed (`dacc0fc`) and pushed to `main` -> Vercel deployment succeeded.
+    - Submitted URL to Google Search Console and refreshed sitemap.
+    - Updated Notion database row to `Status: published`, `ביקורת אנושית: True`, `פורסם באתר: True`.
+    - Live verification on production URL returned HTTP 200 with all schemas and assets loading cleanly.
+- **Key Architectural Decisions & Gotchas**:
+  - *Gotcha:* Tailwind Typography `.app-prose p, strong` overrides container inline `color` in dark mode. Solved by defining CSS classes with explicit `[data-theme="light"]` and `[data-theme="dark"]` overrides.
+  - *Gotcha:* Root `.gitignore` `downloads/` rule ignored `00_blog/01_public/downloads/`. Solved by adding `!00_blog/01_public/downloads/`.
+  - *Micro-Copy Decision:* All external platform mentions (Gumroad) are abstracted behind "חנות המדריכים של עולם ה-AI".
+- **Files Modified / Created**:
+  - `00_blog/00_src/data/blog/2026-11-27-claude-reading-bottleneck-decision-prompt-guide.md`
+  - `00_blog/01_public/images/posts/2026-11-27-claude-reading-bottleneck-decision-prompt-guide.jpg`
+  - `00_blog/01_public/images/posts/claude-tldr/` (9 tutorial images + 2 CPA screenshots)
+  - `00_blog/01_public/downloads/claude-tldr-skill.json`
+  - `00_blog/00_src/styles/typography.css`
+  - `01_generator/prompts/micro_copy_reviewer.md`
+  - `00_blog/02_scripts/lib/products-catalog.json`, `01_generator/src/products_catalog.json`
+  - `.gitignore`
+- **Next Steps & Pending Items**:
+  - [ ] Finalize remaining Notion post `REA = Reverse Engineer Anything (in 9 minutes)` when scheduled.
+  - [ ] Apply `WhatsAppCTA.astro` to other layouts (`AboutLayout.astro`, `index.astro`).
 
 ### [2026-11-25] Session: ICM Architecture Transformation, Notion Dual-Ingest, Hebrew Reviewer & AI Originality Post
 - **Goal**: Implement Interpretable Context Methodology (ICM) across the repository, audit/upgrade the Notion pipeline for email/URL ingestion, add a Hebrew Language Reviewer, and deploy the pending "Unpopular" AI Originality article.
