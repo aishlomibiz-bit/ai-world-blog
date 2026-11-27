@@ -32,6 +32,7 @@ venv/
 build/
 develop-eggs/
 downloads/
+!00_blog/01_public/downloads/
 eggs/
 .eggs/
 01_generator/lib/

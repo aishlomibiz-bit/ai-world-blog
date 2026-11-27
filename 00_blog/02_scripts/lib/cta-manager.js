@@ -214,3 +214,47 @@ export function buildHtmlCtaCard(ctaKey = "google_ai_pro") {
 </div>
 `;
 }
+
+/**
+ * Resolves the optimal CTA key from a Jev evaluation object (backward-compatible helper).
+ */
+export function resolveCtaType(jevEval = {}, context = {}) {
+  const { recommendedCta, targetAudience, suggestedPostType, commercialIntent } = jevEval;
+
+  if (recommendedCta && CTA_TEMPLATES[recommendedCta]) {
+    return recommendedCta;
+  }
+
+  const matched = matchContextualCta({ ...context, recommendedCta });
+  if (matched && matched !== "google_ai_pro") {
+    return matched;
+  }
+
+  if (
+    targetAudience === "business_owners" ||
+    targetAudience === "finance" ||
+    commercialIntent === "high" ||
+    suggestedPostType === "use_case"
+  ) {
+    return "consulting";
+  }
+
+  return "google_ai_pro";
+}
+
+/**
+ * Builds a styled Hebrew CTA block in Markdown format (backward-compatible helper).
+ */
+export function buildCtaBlock(ctaType = "google_ai_pro") {
+  const resolvedKey = CTA_TEMPLATES[ctaType] ? ctaType : "google_ai_pro";
+  return `\n\n---\n${buildHtmlCtaCard(resolvedKey)}`;
+}
+
+/**
+ * Injects the dynamic CTA block into post markdown content.
+ */
+export function injectDynamicCta(content, jevEval = {}, context = {}) {
+  if (!content) return "";
+  const ctaType = resolveCtaType(jevEval, { ...context, body: content });
+  return content.trim() + buildCtaBlock(ctaType);
+}
